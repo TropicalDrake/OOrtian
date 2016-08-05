@@ -40,9 +40,12 @@
 <div class="w3-small w3-card-12 w3-text-white w3-leftbar w3-border-pink" style="background-color:#2c2e3b; padding-left:10px;">
 Before you generate, make sure to pick a spaces value under options menu
 <br>
-The text has to be generated in order to color it
-<br>
 Use < for start and > for end, rightclick and save as to download
+</div>
+<div style="display:none;">
+<input type="number" id="er" value='0'/>
+<input type="number" id="gje" value='0'/>
+<input type="number" id="be" value='0'/>
 </div>
 
 <script>
@@ -124,7 +127,6 @@ var er = kolor >> 16;
 var gje = kolor >> 8 & 0xFF;
 var be = kolor & 0xFF;
 
-
 c.crossOrigin = "Anonymous";
 
 for (var i = 0; i < length; i++) {
@@ -135,14 +137,12 @@ for (var i = 0; i < length; i++) {
     var b = pixelArray[++index];
     var a = pixelArray[++index];
 
-    if (r === 0 && g === 0 && b === 0) { // pixel is black
-        pixelArray[--index] = be; //b
-        pixelArray[--index] = gje; //g
-		pixelArray[--index] = er; //r
-    }
+
+    pixelArray[--index] = be; //b
+    pixelArray[--index] = gje; //g
+	pixelArray[--index] = er; //r
 }
 ctx.putImageData(imageData,0,0);
-
 }
 function CanvasSaver(url) {
      
