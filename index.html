@@ -9,7 +9,7 @@
 </head>
 
 
-<body class="w3-container">
+<body class="w3-container" onload="olf()">
 
 <div id="naglowek" class="w3-container w3-text-white w3-center" style="background-color:#2c2e3b;">
 <h6>OOrtian</h6>
@@ -29,6 +29,7 @@
 
 <a class="w3-text-white">Spaces:</a>
 <input type="number" id="przerwyinput" placeholder="Space size" value='5'/>
+<a class="w3-text-white">Color:</a>
 <input type="color" id="colorinput" onChange="kolor()"/>
 
 </div>
@@ -46,6 +47,12 @@ Use <a class="w3-text-pink"><</a> for start and <a class="w3-text-pink">></a> fo
 </div>
 
 <script>
+function olf(){
+document.getElementById("textinput").value = 'qwertyuiopasdfghjklzxcvbnm<>?!';
+generuj();
+usun();
+document.getElementById("textinput").value = '';
+}
 function opcje(){
 
 var opcje = document.getElementById('options');
@@ -59,7 +66,6 @@ opcje.style.display='none';
 
 }
 function generuj() {
-
 	var przerwyinput = document.getElementById("przerwyinput").value;
 	var przerwy = parseInt(przerwyinput);
 	
@@ -106,6 +112,8 @@ function usun(){
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
 	ctx.clearRect(0,0,c.width,c.height);
+	c.height = 41;
+	c.width = 41;
 }
 function kolor(){
 
@@ -142,49 +150,6 @@ for (var i = 0; i < length; i++) {
 }
 ctx.putImageData(imageData,0,0);
 }
-function CanvasSaver(url) {
-     
-    this.url = url;
-     
-    this.savePNG = function(cnvs, fname) {
-        if(!cnvs || !url) return;
-        fname = fname || 'picture';
-         
-        var data = cnvs.toDataURL("image/png");
-        data = data.substr(data.indexOf(',') + 1).toString();
-         
-        var dataInput = document.createElement("input") ;
-        dataInput.setAttribute("name", 'imgdata') ;
-        dataInput.setAttribute("value", data);
-        dataInput.setAttribute("type", "hidden");
-         
-        var nameInput = document.createElement("input") ;
-        nameInput.setAttribute("name", 'name') ;
-        nameInput.setAttribute("value", fname + '.png');
-         
-        var myForm = document.createElement("form");
-        myForm.method = 'post';
-        myForm.action = url;
-        myForm.appendChild(dataInput);
-        myForm.appendChild(nameInput);
-         
-        document.body.appendChild(myForm) ;
-        myForm.submit() ;
-        document.body.removeChild(myForm) ;
-    };
-     
-    this.generateButton = function (label, cnvs, fname) {
-        var btn = document.createElement('button'), scope = this;
-        btn.innerHTML = label;
-        btn.style['class'] = 'canvassaver';
-        btn.addEventListener('click', function(){scope.savePNG(cnvs, fname);}, false);
-         
-        document.body.appendChild(btn);
-         
-        return btn;
-    };
-}
-
 </script>
 
 
