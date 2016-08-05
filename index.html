@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/w3.css">
+
+</head>
+
+
+<body class="w3-container">
+
+<div id="naglowek" class="w3-container w3-text-white w3-center" style="background-color:#2c2e3b">
+OOrtian
+</div>
+
+<input class="w3-input w3-border w3-border-black" type="text" id="textinput"/>
+
+<div class="w3-container w3-center" id="navbar" style="background-color:#2c2e3b">
+<button class="w3-btn w3-pink" onclick="generuj()">Generate</button>
+<button class="w3-btn" onclick="usun()">Clear</button>
+<button class="w3-btn" onclick="kolor()">Color</button>
+<input type="color" id="colorinput"/>
+<input type="number" id="przerwyinput" placeholder="Spaces" />
+</div>
+
+<div class="w3-center" style="margin-top:50px;">
+<canvas id="myCanvas" width="41" height="41">
+</canvas>
+</div>
+
+<script>
+function generuj() {
+
+	var przerwyinput = document.getElementById("przerwyinput").value;
+	var przerwy = parseInt(przerwyinput);
+	
+    var t = document.getElementById("textinput");
+	var tresc = t.value;
+	var dlugosc = tresc.length;
+	var c = document.getElementById("myCanvas");
+	
+	var dlc = ((dlugosc*41)+(przerwy*(dlugosc-1)));
+	
+	c.width = dlc;
+	c.height = 41;
+	
+	var ox = 0;
+	
+	for(var lsd = 0; lsd < dlugosc; lsd++)
+	{
+	var znak = tresc.charAt(lsd);
+	
+	if(znak == "?"){
+	znak = "qu";
+	}
+	if(znak == " "){
+	znak = "pu";
+	}
+	if(znak == "<"){
+	znak = "start";
+	}
+	if(znak == ">"){
+	znak = "end";
+	}
+	
+	var ctx = c.getContext("2d");
+    var img = new Image();
+	img.src = "img/"+znak+".png";
+	ctx.drawImage(img,ox,0);
+	
+	ox += 41;
+	ox += przerwy;
+}
+}
+function usun(){
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+	ctx.clearRect(0,0,c.width,c.height);
+}
+function kolor(){
+
+
+var k = document.getElementById("colorinput").value;
+var ko = k.slice(1,20);
+var kolor = "0x"+ko;
+
+var c=document.getElementById("myCanvas");
+var ctx=c.getContext("2d");
+
+var imageData = ctx.getImageData(0, 0, c.width, c.height);
+var pixelArray = imageData.data;
+var length = pixelArray.length / 4; // 4 components - red, green, blue and alpha
+
+var er = kolor >> 16;
+var gje = kolor >> 8 & 0xFF;
+var be = kolor & 0xFF;
+
+
+c.crossOrigin = "Anonymous";
+
+for (var i = 0; i < length; i++) {
+    var index = 4 * i;
+
+    var r = pixelArray[index];
+    var g = pixelArray[++index];
+    var b = pixelArray[++index];
+    var a = pixelArray[++index];
+
+    if (r === 0 && g === 0 && b === 0) { // pixel is black
+        pixelArray[--index] = be; //b
+        pixelArray[--index] = gje; //g
+		pixelArray[--index] = er; //r
+    }
+}
+ctx.putImageData(imageData,0,0);
+
+}
+function CanvasSaver(url) {
+     
+    this.url = url;
+     
+    this.savePNG = function(cnvs, fname) {
+        if(!cnvs || !url) return;
+        fname = fname || 'picture';
+         
+        var data = cnvs.toDataURL("image/png");
+        data = data.substr(data.indexOf(',') + 1).toString();
+         
+        var dataInput = document.createElement("input") ;
+        dataInput.setAttribute("name", 'imgdata') ;
+        dataInput.setAttribute("value", data);
+        dataInput.setAttribute("type", "hidden");
+         
+        var nameInput = document.createElement("input") ;
+        nameInput.setAttribute("name", 'name') ;
+        nameInput.setAttribute("value", fname + '.png');
+         
+        var myForm = document.createElement("form");
+        myForm.method = 'post';
+        myForm.action = url;
+        myForm.appendChild(dataInput);
+        myForm.appendChild(nameInput);
+         
+        document.body.appendChild(myForm) ;
+        myForm.submit() ;
+        document.body.removeChild(myForm) ;
+    };
+     
+    this.generateButton = function (label, cnvs, fname) {
+        var btn = document.createElement('button'), scope = this;
+        btn.innerHTML = label;
+        btn.style['class'] = 'canvassaver';
+        btn.addEventListener('click', function(){scope.savePNG(cnvs, fname);}, false);
+         
+        document.body.appendChild(btn);
+         
+        return btn;
+    };
+}
+
+</script>
+
+
+</body>
+
+
+
+</html>
