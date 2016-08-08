@@ -142,7 +142,6 @@ var c = $("#inpColor").spectrum("get");
 
 var kolor = "0x" + c.toHex();
 
-console.log($("#myCanvas").attr("width"));
 
 var ctx = $("#myCanvas")[0].getContext("2d");
 
@@ -192,8 +191,6 @@ $("#myCanvas").click(function(e){
 	var ktoralitera = Math.floor(x/(41+spacing))+1;
 	selx = ktoralitera*(41+spacing);
 	jednlit = rozmiarlitery;
-	console.log(ktoralitera);
-	console.log(selx);
 	
 	}
 	
