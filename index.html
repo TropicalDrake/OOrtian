@@ -1,34 +1,214 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+<meta http-equiv="Content-Type" content="text/html;  charset=iso-8859-2">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/spectrum.css">
+<script src="js/jquery-3.1.0.min.js"></script>
+<script src="js/spectrum.js"></script>
+
 </head>
-<body class="w3-container">
 
-<div class="w3-center">
 
-<div class="w3-text-white w3-small" style='background-color:#0d3a5e;'>
-TropicalDrake's apps
+<body>
+
+<div id="naglowek" class="w3-container w3-text-white w3-center" style="background-color:#2c2e3b;">
+<h6>OOrtian</h6>
 </div>
 
-<ul class="w3-navbar">
-	<li style="width:33.33333%; line-height:175px;" class="w3-blue w3-large"><a class="w3-hover-pink" href="oortian.html" draggable='false'>OOrtian</a></li>
+<ul id="gentran" class="w3-navbar w3-center" style="background-color:#353747;">
+
+<li class="w3-pink" style="width:100%; display:none;" id="btnGenerate"><a href="#" >Generator</a></li>
+
 </ul>
 
+
+
+
+<div id="generate" style="display:block;">
+
+<input class="w3-input" type="text" id="textinput" placeholder="Text input" />
+
+<ul class="w3-navbar w3-center" style="background-color:#2c2e3b;">
+  <li style="width:25%" class="w3-hide-small">&nbsp;</li>
+  <li style="width:25%" class="w3-pink" id="btnGenerateText"><a href="#">Generate!</a></li>
+  <li style="width:25%" class="w3-pink" id="btnOptions"><a href="#" >Options</a></li>
+  <li style="width:25%" class="w3-hide-small">&nbsp;</li>
+</ul>
+
+<ul class="w3-navbar w3-center" id="options" style="display:none; background-color:#B3174C;">
+	<li style="color:white; width:25%;"><input class="w3-input" type="number" id="inpPrzerwy" min='1' value='5'></li>
+	<li style="color:white; width:25%;"><input type="text" id="inpColor"></li>
+	<li style="color:white; width:25%;"><a id="btnColor" href="#">Apply color</a></li>
+	<li style="color:white; width:25%;"><a id="btnSelAll" href="#">Select all</a></li>
+</ul>
+
+<div class="w3-center w3-padding" style="margin-top:0px; height:57px;">
+<canvas id="myCanvas" width="41" height="41">
+</canvas>
+</div>
+<div class="w3-small w3-card-12 w3-text-white w3-leftbar w3-border-pink" style="background-color:#2c2e3b; padding-left:10px;">
+If the text is not complete, click generate again
+<br>
+Changing spaces will work after you regenerate text
+<br>
+Click on a character and change its color!
+<br>
+Use <a class="w3-text-pink"><</a> for start and <a class="w3-text-pink">></a> for end, rightclick and <a class="w3-text-pink">save as</a> to download
 </div>
 
+
+</div>
+<script>
+
+
+$(function(){
+
+var generatedtext;
+var generatedspacing;
+var selx;
+var jednlit;
+
+$("#inpColor").spectrum({
+	color: "#f00"
+});
+
+$("#btnSelAll").click(function(){
+selx = 0;
+jednlit = 0;
+});
+
+$("#btnGenerate").click(function(){
+	$("#generate").fadeToggle();
+});
+$("#btnOptions").click(function(){
+	$("#options").slideToggle();
+});
+$("#btnGenerateText").click(function(){
+	var przerwy = parseInt($("#inpPrzerwy").val());
+	var tresc = $("#textinput").val();
+	var dlugosc = tresc.length;
+	
+	var dlc = ((dlugosc*41)+(przerwy*(dlugosc-1)));
+
+	$("#myCanvas").attr("width",dlc).attr("height",41);
+	
+	var ox = 0;
+	
+	for(var lsd = 0; lsd < dlugosc; lsd++)
+	{
+	var znak = tresc.charAt(lsd).toLowerCase();
+	
+	if(znak == "?"){
+	znak = "qu";
+	}
+	if(znak == " "){
+	znak = "pu";
+	}
+	if(znak == "<"){
+	znak = "start";
+	}
+	if(znak == ">"){
+	znak = "end";
+	}
+	
+	
+	var ctx = $("#myCanvas")[0].getContext("2d");
+	var img = new Image();
+	img.src = "img/"+znak+".png";
+	ctx.drawImage(img,ox,0);
+	
+	ox += 41;
+	ox += przerwy;
+	generatedtext = tresc;
+	generatedspacing = przerwy;
+	selx = 0;
+	jednlit = 0;
+	
+	}
+
+});
+
+$("#btnColor").click(function(){
+color();
+});
+
+
+function color(){
+
+var c = $("#inpColor").spectrum("get");
+
+var kolor = "0x" + c.toHex();
+
+console.log($("#myCanvas").attr("width"));
+
+var ctx = $("#myCanvas")[0].getContext("2d");
+
+
+var imageData;
+var sub1 = selx;
+var sub2 = jednlit;
+if(sub1 > 0 && sub2 > 0){
+imageData = ctx.getImageData(selx-jednlit, 0,jednlit,$("#myCanvas").attr("height"));
+}else
+imageData = ctx.getImageData(0, 0,$("#myCanvas").attr("width"),$("#myCanvas").attr("height"));
+
+var pixelArray = imageData.data;
+var length = pixelArray.length / 4; // 4 components - red, green, blue and alpha
+
+var er = kolor >> 16;
+var gje = kolor >> 8 & 0xFF;
+var be = kolor & 0xFF;
+
+for (var i = 0; i < length; i++) {
+    var index = 4 * i;
+
+    var r = pixelArray[index];
+    var g = pixelArray[++index];
+    var b = pixelArray[++index];
+    var a = pixelArray[++index];
+
+
+    pixelArray[--index] = be; //b
+    pixelArray[--index] = gje; //g
+	pixelArray[--index] = er; //r
+}
+if(sub1 > 0 && sub2 > 0){
+ctx.putImageData(imageData,selx-jednlit,0);
+}else
+ctx.putImageData(imageData,0,0);
+}
+
+$("#myCanvas").click(function(e){
+
+	if(generatedspacing && generatedtext){
+
+    var x = e.pageX - this.offsetLeft;
+	var spacing = generatedspacing;
+	var rozmiarlitery = 41+spacing;
+	
+	var ktoralitera = Math.floor(x/(41+spacing))+1;
+	selx = ktoralitera*(41+spacing);
+	jednlit = rozmiarlitery;
+	console.log(ktoralitera);
+	console.log(selx);
+	
+	}
+	
+}); 
+
+
+
+});
+
+
+</script>
 
 
 </body>
 
-<script>
-function click(){
-console.log("click!");
 
-}
-
-
-</script>
 
 </html>
