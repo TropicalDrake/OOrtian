@@ -64,13 +64,25 @@
 </div>
 <script>
 
-
 $(function(){
 
 var generatedtext;
 var generatedspacing;
 var selx;
 var jednlit;
+
+$.fn.preload = function() {
+    this.each(function(){
+        $('<img/>')[0].src = this;
+    });
+}
+
+//preload
+$(['img/q.png','img/w.png','img/e.png','img/r.png','img/t.png','img/y.png','img/u.png','img/i.png','img/o.png','img/p.png',
+'img/a.png','img/s.png','img/d.png','img/f.png','img/g.png','img/h.png','img/j.png','img/k.png','img/l.png','img/z.png',
+'img/x.png','img/c.png','img/v.png','img/b.png','img/n.png','img/m.png','img/end.png','img/start.png','img/pu.png',
+'img/!.png','img/qu.png']).preload();
+//preload
 
 $("#inpColor").spectrum({
 	color: "#f00"
@@ -94,9 +106,9 @@ $("#btnGenerateText").click(function(){
 	
 	var dlc = ((dlugosc*41)+(przerwy*(dlugosc-1)));
 
-	$("#myCanvas").attr("width",dlc).attr("height",41);
+	$("#myCanvas").attr("width",dlc).attr("height",41);//ustawia canvas
 	
-	var ox = 0;
+	var ox = 0;//posuwacz
 	
 	for(var lsd = 0; lsd < dlugosc; lsd++)
 	{
@@ -113,9 +125,7 @@ $("#btnGenerateText").click(function(){
 	}
 	if(znak == ">"){
 	znak = "end";
-	}
-	
-	
+	}	
 	var ctx = $("#myCanvas")[0].getContext("2d");
 	var img = new Image();
 	img.src = "img/"+znak+".png";
@@ -135,7 +145,6 @@ $("#btnGenerateText").click(function(){
 $("#btnColor").click(function(){
 color();
 });
-
 
 function color(){
 
