@@ -51,8 +51,6 @@
 	</canvas>
 </div>
 <div class="w3-small w3-card-12 w3-text-white w3-leftbar w3-border-pink" style="background-color:#2c2e3b; padding-left:10px;">
-	If the text is not complete, click generate again
-	<br>
 	Changing spaces will work after you regenerate text
 	<br>
 	Click on a character and change its color!
@@ -85,6 +83,8 @@ $(['img/q.png','img/w.png','img/e.png','img/r.png','img/t.png','img/y.png','img/
 //preload
 
 $("#inpColor").spectrum({
+	showInput: true,
+	preferredFormat: "hex",
 	color: "#f00"
 });
 
