@@ -2,12 +2,12 @@
 <html>
 
 <head>
-<meta http-equiv="Content-Type" content="text/html;  charset=iso-8859-2">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/w3.css">
-<link rel="stylesheet" href="css/spectrum.css">
-<script src="js/jquery-3.1.0.min.js"></script>
-<script src="js/spectrum.js"></script>
+	<meta http-equiv="Content-Type" content="text/html;  charset=iso-8859-2">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/w3.css">
+	<link rel="stylesheet" href="css/spectrum.css">
+	<script src="js/jquery-3.1.0.min.js"></script>
+	<script src="js/spectrum.js"></script>
 
 </head>
 
@@ -15,12 +15,12 @@
 <body>
 
 <div id="naglowek" class="w3-container w3-text-white w3-center" style="background-color:#2c2e3b;">
-<h6>OOrtian</h6>
+	<h6>OOrtian</h6>
 </div>
 
 <ul id="gentran" class="w3-navbar w3-center" style="background-color:#353747;">
 
-<li class="w3-pink" style="width:100%; display:none;" id="btnGenerate"><a href="#" >Generator</a></li>
+	<li class="w3-pink" style="width:100%; display:none;" id="btnGenerate"><a href="#" >Generator</a></li>
 
 </ul>
 
@@ -39,24 +39,25 @@
 </ul>
 
 <ul class="w3-navbar w3-center" id="options" style="display:none; background-color:#B3174C;">
-	<li style="color:white; width:25%;"><input class="w3-input" type="number" id="inpPrzerwy" min='1' value='5'></li>
-	<li style="color:white; width:25%;"><input type="text" id="inpColor"></li>
-	<li style="color:white; width:25%;"><a id="btnColor" href="#">Apply color</a></li>
-	<li style="color:white; width:25%;"><a id="btnSelAll" href="#">Select all</a></li>
+	<li style="color:white; width:10%; line-height:37px;">Spaces:</li>
+	<li style="color:white; width:22.5%;"><input class="w3-input" type="number" id="inpPrzerwy" min='1' value='5'></li>
+	<li style="color:white; width:22.5%; line-height:37px;"><input type="text" id="inpColor"></li>
+	<li style="color:white; width:22.5%;"><a id="btnColor" href="#">Apply color</a></li>
+	<li style="color:white; width:22.5%;"><a id="btnSelAll" href="#">Select all</a></li>
 </ul>
 
 <div class="w3-center w3-padding" style="margin-top:0px; height:57px;">
-<canvas id="myCanvas" width="41" height="41">
-</canvas>
+	<canvas id="myCanvas" width="41" height="41">
+	</canvas>
 </div>
 <div class="w3-small w3-card-12 w3-text-white w3-leftbar w3-border-pink" style="background-color:#2c2e3b; padding-left:10px;">
-If the text is not complete, click generate again
-<br>
-Changing spaces will work after you regenerate text
-<br>
-Click on a character and change its color!
-<br>
-Use <a class="w3-text-pink"><</a> for start and <a class="w3-text-pink">></a> for end, rightclick and <a class="w3-text-pink">save as</a> to download
+	If the text is not complete, click generate again
+	<br>
+	Changing spaces will work after you regenerate text
+	<br>
+	Click on a character and change its color!
+	<br>
+	Use <a class="w3-text-pink"><</a> for start and <a class="w3-text-pink">></a> for end, rightclick and <a class="w3-text-pink">save as</a> to download
 </div>
 
 
@@ -142,6 +143,7 @@ var c = $("#inpColor").spectrum("get");
 
 var kolor = "0x" + c.toHex();
 
+console.log($("#myCanvas").attr("width"));
 
 var ctx = $("#myCanvas")[0].getContext("2d");
 
@@ -191,6 +193,8 @@ $("#myCanvas").click(function(e){
 	var ktoralitera = Math.floor(x/(41+spacing))+1;
 	selx = ktoralitera*(41+spacing);
 	jednlit = rozmiarlitery;
+	console.log(ktoralitera);
+	console.log(selx);
 	
 	}
 	
